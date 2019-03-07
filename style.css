@@ -1,0 +1,22 @@
+#container{
+    width: 600px;
+    background-color: black;
+    margin: 0 auto;
+
+}
+div{
+    width: 75%;
+    background-color: aquamarine;
+    height: 30px;
+}
+
+div.test{
+    height: 30px;
+ background-color: brown;
+ transition: height .3s linear;
+}
+
+div.test:hover{
+    height: 300px;
+    transform: rotate(90deg);
+   }
