@@ -2,21 +2,27 @@
     width: 600px;
     background-color: black;
     margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+#container > div {
+    width: 100px;
+    height: 100px;
+    background-color:rgb(18, 224, 173);
+    transition: all .3s linear;
 
 }
-div{
-    width: 75%;
-    background-color: aquamarine;
-    height: 30px;
-}
+#container > div:nth-child(2) {
+    background-color:tomato;
+    height: 50px;
 
-div.test{
-    height: 30px;
- background-color: brown;
- transition: height .3s linear;
 }
-
-div.test:hover{
-    height: 300px;
-    transform: rotate(90deg);
-   }
+#container > div:nth-child(3) {
+    height: 75px;
+    background-color:rgb(129, 255, 71);
+}
+#container > div:hover {
+    background-color:rgb(132, 0, 255);
+    width: 150px;
+}
