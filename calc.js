@@ -1,39 +1,80 @@
-const fields =[
-    { txt: 1, col: 1, row: 4 },
-    { txt: 2, col: 2, row: 4 },
-    { txt: 3, col: 3, row: 4 },
-    { txt: 4, col: 1, row: 3 },
-    { txt: 5, col: 2, row: 3 },
-    { txt: 6, col: 3, row: 3 },
-    { txt: 7, col: 1, row: 2 },
-    { txt: 8, col: 2, row: 2 },
-    { txt: 9, col: 3, row: 2 },
-    { txt: 0, col: '1/3', row: 5 },
-    { txt: 'C', col: 4, row: 2 },
-    { txt: '+', col: 4, row: 3 },
-    { txt: '-', col: 4, row: 4 },
-    { txt: '=', col: 4, row: 5 },
-    { txt: '.', col: 3, row: 5 },
-    { txt: 'Display', col: '1/5', row: 1 },
-        1,2,3,4,5,6,7,8,9,0,'C','+','-','=','.','Display'];
+const fields = [
+    {txt:1,col:1,row:4},
+    {txt:2,col:2,row:4},
+    {txt:3,col:3,row:4},
+    {txt:4,col:1,row:3},
+    {txt:5,col:2,row:3},
+    {txt:6,col:3,row:3},
+    {txt:7,col:1,row:2},
+    {txt:8,col:2,row:2},
+    {txt:9,col:3,row:2},
+    {txt:0,col:'1/3',row:5},
+    {txt:'C',col:4,row:2},
+    {txt:'+',col:4,row:3},
+    {txt:'-',col:4,row:4},
+    {txt:'=',col:4,row:5},
+    {txt:'.',col:3,row:5},
+    {txt:'Display',col:'1/5',row:1}
+   ];
+let clearFlag = false;
+let memory = 0;
+let op = 0;
+const handleClick = ev => {
+    const disp = document.getElementById('display');
+    const key = ev.target.textContent;
+    switch (key) {
+        case 'C':
+            disp.textContent = 0;
+            memory = 0;
+            op = 0;
+            break;
+        case '+':
+        case '-':
+            if (op === 0) {
+                memory = parseFloat(disp.textContent);
+            } else {
+                memory += op * parseFloat(disp.textContent);
+            }
+            op = key === '+' ? 1 : -1;
+            clearFlag = true;
+            break;
+        case '=':
+            if (op === 0) {
+                memory = parseFloat(disp.textContent);
+            } else {
+                memory += op * parseFloat(disp.textContent);
+            }
+            op = 0;
+            disp.textContent = memory;
+            clearFlag = false;
+            break;
+        default:
+            if (key === '0' && disp.textContent === '0') return;
+            if (key === '.' && (disp.textContent.includes('.') || clearFlag)) return;
+            if ((key !== '.' && disp.textContent === '0') || clearFlag) {
+                disp.textContent = key;
+                clearFlag = false;
+            } else {
+                disp.textContent += key;
+            }
+    }
 
-const init = () =>{
+}
+const init = () => {
     const container = document.createElement('div');
     container.id = 'container';
 
-    fields.forEach(el =>{
+    fields.forEach(el => {
         const button = document.createElement('div');
         button.textContent = el.txt;
-        button.style.gridColumn =el.col;
-        button.style.gridRow=el.row;
-        if (el.txt === 'Display'){
+        button.style.gridColumn = el.col;
+        button.style.gridRow = el.row;
+        if (el.txt === 'Display') {
             button.id = 'display';
-        }else{
-        button.addEventListener('click', ev =>{
-            const d =document.getElementById('display');
-            d.textContent = ev.target.textContent;
-        });
-    }
+            button.textContent = 0;
+        } else {
+            button.addEventListener('click', handleClick);
+        }
         container.appendChild(button);
 
     });
